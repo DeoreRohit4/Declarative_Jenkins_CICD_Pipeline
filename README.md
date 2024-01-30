@@ -1,3 +1,8 @@
+# Declarative_Jenkins_CICD_Pipeline
+
+file:///home/rohit/Screenshots/Screenshot%20from%202024-01-30%2022-13-00.png
+
+
 # Simple Notes App
 This is a simple notes app built with React and Django.
 
