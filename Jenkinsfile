@@ -1,34 +1,33 @@
-pipeline {
-    agent any 
+pipeline{
+    agent any
     
     stages{
         stage("Clone Code"){
-            steps {
-                echo "Cloning the code"
-                git url:"https://github.com/LondheShubham153/django-notes-app.git", branch: "main"
+            steps{
+                echo "Clonning the Code"
+                git url:"https://github.com/DeoreRohit4/Declarative_Jenkins_CICD_Pipeline.git", branch: "main"
             }
         }
         stage("Build"){
-            steps {
-                echo "Building the image"
-                sh "docker build -t my-note-app ."
+            steps{
+                echo "Building Image"
+                sh "docker build -t note-app-image ."
             }
         }
         stage("Push to Docker Hub"){
-            steps {
-                echo "Pushing the image to docker hub"
+            steps{
+                echo "Pushing to Docker-Hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag my-note-app ${env.dockerHubUser}/my-note-app:latest"
+                sh "docker tag note-app-image ${env.dockerHubUser}/note-app-image:v1"    
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/my-note-app:latest"
+                sh "docker push ${env.dockerHubUser}/note-app-image:v1"
                 }
             }
         }
         stage("Deploy"){
-            steps {
-                echo "Deploying the container"
+            steps{
+                echo "Deploying the Container"
                 sh "docker-compose down && docker-compose up -d"
-                
             }
         }
     }
